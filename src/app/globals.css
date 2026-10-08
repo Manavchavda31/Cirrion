@@ -533,11 +533,13 @@
     gap: 16px;
     padding-inline: 14px 10px;
     border-radius: 20px;
-    background: rgb(255 255 255 / 0.55);
-    border: 1px solid rgb(230 232 237 / 0.7);
-    -webkit-backdrop-filter: saturate(160%) blur(14px);
-    backdrop-filter: saturate(160%) blur(14px);
-    box-shadow: 0 1px 1px rgb(17 19 24 / 0.02);
+    background: rgb(255 255 255 / 0.84);
+    border: 1px solid rgb(17 19 24 / 0.07);
+    -webkit-backdrop-filter: saturate(160%) blur(20px);
+    backdrop-filter: saturate(160%) blur(20px);
+    box-shadow:
+      0 1px 2px rgb(17 19 24 / 0.03),
+      0 8px 24px -16px rgb(30 41 80 / 0.12);
     transition:
       background-color 0.4s var(--ease-out),
       border-color 0.4s var(--ease-out),
@@ -550,11 +552,11 @@
   }
   .nav-shell[data-scrolled="true"] .nav-bar,
   .nav-shell[data-open="true"] .nav-bar {
-    background: rgb(255 255 255 / 0.88);
-    border-color: var(--color-line);
+    background: rgb(255 255 255 / 0.92);
+    border-color: rgb(17 19 24 / 0.1);
     box-shadow:
       0 1px 2px rgb(17 19 24 / 0.04),
-      0 12px 32px -16px rgb(17 19 24 / 0.16);
+      0 14px 36px -18px rgb(30 41 80 / 0.2);
   }
   .nav-link {
     position: relative;
@@ -892,7 +894,7 @@
   animation: fade-in 0.4s var(--ease-out) both;
 }
 
-/* ───── Hero ecosystem: one 12 s loop, slow and seamless ───── */
+/* ───── Shared ambient loops (technology stage, closing CTA, hero) ───── */
 @keyframes float-y {
   0%,
   100% {
@@ -927,154 +929,6 @@
     stroke-dashoffset: -240;
   }
 }
-@keyframes packet {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
-@keyframes node-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  50% {
-    transform: scale(1.9);
-    opacity: 0;
-  }
-}
-@keyframes draw-loop {
-  0% {
-    stroke-dashoffset: 1;
-  }
-  35%,
-  80% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: -1;
-  }
-}
-@keyframes area-loop {
-  0%,
-  8% {
-    opacity: 0;
-  }
-  35%,
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-/* chat: question, typing, answer, hold, reset — 12 s */
-@keyframes msg-q {
-  0%,
-  6% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  12%,
-  88% {
-    opacity: 1;
-    transform: none;
-  }
-  96%,
-  100% {
-    opacity: 0;
-    transform: none;
-  }
-}
-@keyframes msg-typing {
-  0%,
-  14% {
-    opacity: 0;
-  }
-  18%,
-  30% {
-    opacity: 1;
-  }
-  34%,
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes msg-a {
-  0%,
-  32% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  40%,
-  88% {
-    opacity: 1;
-    transform: none;
-  }
-  96%,
-  100% {
-    opacity: 0;
-    transform: none;
-  }
-}
-@keyframes dot-bounce {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@keyframes bar-grow {
-  0%,
-  10% {
-    transform: scaleY(0.35);
-  }
-  40%,
-  80% {
-    transform: scaleY(1);
-  }
-  100% {
-    transform: scaleY(0.35);
-  }
-}
-@keyframes status-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-@keyframes counter-in {
-  0%,
-  30% {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  42%,
-  86% {
-    opacity: 1;
-    transform: none;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .eco-float {
   animation: float-y 12s var(--ease-soft) infinite;
 }
@@ -1088,121 +942,362 @@
   stroke-dasharray: 3 9;
   animation: flow-dash 12s linear infinite;
 }
-.eco-packet {
-  offset-rotate: 0deg;
-  animation: packet 6s var(--ease-soft) infinite;
+
+/* ───── Hero ─────────────────────────────────────────────────────────────
+   Entrance is choreographed with explicit delays (glow → eyebrow → headline lines → copy → actions →
+   product visual → floating pieces). Afterwards each piece floats on its own period so nothing moves in sync.
+   HeroMotion sets --hx-px / --hx-py (pointer, -1..1) and --hx-s (scroll progress, 0..1) on the section. */
+.hx {
+  --hx-px: 0;
+  --hx-py: 0;
+  --hx-s: 0;
 }
-.eco-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: node-pulse 4s var(--ease-soft) infinite;
+.hx-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 12.4vw, 4rem);
+  line-height: 0.94;
+  letter-spacing: -0.048em;
 }
-.eco-draw {
-  stroke-dasharray: 1;
-  animation: draw-loop 12s var(--ease-soft) infinite;
+@media (min-width: 768px) {
+  .hx-display {
+    font-size: clamp(4.5rem, 9vw, 5.75rem);
+  }
 }
-.eco-area {
-  animation: area-loop 12s var(--ease-soft) infinite;
-}
-.eco-q {
-  animation: msg-q 12s var(--ease-soft) infinite;
-}
-.eco-typing {
-  animation: msg-typing 12s linear infinite;
-}
-.eco-a {
-  animation: msg-a 12s var(--ease-soft) infinite;
-}
-.eco-dot {
-  animation: dot-bounce 1.2s ease-in-out infinite;
-}
-.eco-bar {
-  transform-box: fill-box;
-  transform-origin: bottom;
-  animation: bar-grow 12s var(--ease-soft) infinite;
-}
-.eco-blink {
-  animation: status-blink 3s ease-in-out infinite;
-}
-.eco-count {
-  animation: counter-in 12s var(--ease-soft) infinite;
-}
-/* entrance for the ecosystem pieces (runs once, then the loops take over) */
-.eco-in {
-  animation: rise-in 1.1s var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 140ms + 300ms);
+@media (min-width: 1280px) {
+  .hx-display {
+    font-size: clamp(5rem, 6.25vw, 5.75rem);
+  }
 }
 
-/* ───── Hero ecosystem stage: an 80em × 40em canvas whose em scales with the container ───── */
-.eco {
+@keyframes hx-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes hx-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+}
+@keyframes hx-line {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    filter: blur(8px);
+  }
+}
+@keyframes hx-assemble {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0) scale(0.965);
+    filter: blur(10px);
+  }
+}
+@keyframes hx-pop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.94);
+    filter: blur(6px);
+  }
+}
+@keyframes hx-nav {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+.hx-in {
+  animation: hx-up 0.55s var(--ease-out) both;
+  animation-delay: var(--hx-d, 0ms);
+}
+.hx-in-fade {
+  animation: hx-fade 0.6s var(--ease-out) both;
+  animation-delay: var(--hx-d, 0ms);
+}
+.hx-in-line {
+  display: block;
+  animation: hx-line 0.75s var(--ease-out) both;
+  animation-delay: var(--hx-d, 0ms);
+}
+.hx-in-assemble {
+  animation: hx-assemble 1.1s var(--ease-out) both;
+  animation-delay: var(--hx-d, 0ms);
+}
+.hx-in-pop {
+  animation: hx-pop 0.9s var(--ease-out) both;
+  animation-delay: var(--hx-d, 0ms);
+}
+.nav-shell {
+  animation: hx-nav 0.6s var(--ease-out) both;
+}
+
+/* independent floating loops */
+@keyframes hx-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--hx-amp, -8px), 0);
+  }
+}
+.hx-float {
+  animation: hx-float var(--hx-dur, 6s) ease-in-out infinite;
+  animation-delay: var(--hx-fd, 0s);
+}
+
+/* ambient light: slow drift, never a visible blob */
+@keyframes hx-drift {
+  0%,
+  100% {
+    transform: translate3d(-2%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.08);
+  }
+}
+.hx-drift {
+  animation: hx-drift var(--hx-dur, 16s) ease-in-out infinite;
+}
+
+/* connection lines breathe; a small light pulse travels each one (SMIL in markup) */
+@keyframes hx-breathe {
+  0%,
+  100% {
+    stroke-opacity: 0.15;
+  }
+  50% {
+    stroke-opacity: 0.38;
+  }
+}
+.hx-wire {
+  animation: hx-breathe 7s ease-in-out infinite;
+}
+
+/* depth layers: pointer parallax and the scroll hand-off */
+.hx-par {
+  transform: translate3d(calc(var(--hx-px) * var(--hx-depth, 4px)), calc(var(--hx-py) * var(--hx-depth, 4px)), 0);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.hx-scroll {
+  transform: scale(calc(1 - var(--hx-s) * 0.03));
+  opacity: calc(1 - var(--hx-s) * 0.05);
+  transform-origin: 50% 0;
+}
+
+/* the product stage: a 64em × 50em canvas whose em follows the stage width */
+.hx-stage {
   container-type: inline-size;
 }
-.eco-canvas {
+.hx-canvas {
   position: relative;
-  font-size: calc(100cqw / 80);
-  height: 40em;
+  font-size: calc(100cqw / 64);
+  height: 50em;
 }
-.eco-el {
+.hx-el {
   position: absolute;
   left: calc(var(--x) * 1em);
   top: calc(var(--y) * 1em);
   width: calc(var(--w) * 1em);
 }
-.eco-only-sm {
+.hx-sm-only {
   display: none;
 }
 @media (max-width: 767px) {
-  .eco-canvas {
-    font-size: calc(100cqw / 46);
-    height: 50em;
+  .hx-canvas {
+    font-size: calc(100cqw / 40);
+    height: 45em;
   }
-  .eco-el {
+  .hx-el {
     left: calc(var(--mx, var(--x)) * 1em);
     top: calc(var(--my, var(--y)) * 1em);
     width: calc(var(--mw, var(--w)) * 1em);
   }
-  .eco-sm-hide {
+  .hx-sm-hide {
     display: none;
   }
-  .eco-only-sm {
+  .hx-sm-only {
     display: block;
   }
 }
-.eco-card {
+/* desktop: the stage sits to the right of the copy and runs past the viewport edge */
+@media (min-width: 1280px) {
+  .hx-stage-wrap {
+    --cw: min(100vw - 2 * var(--gutter), var(--container));
+    --cl: calc((100vw - var(--cw)) / 2);
+    position: absolute;
+    top: calc(var(--nav-space) - 8px);
+    left: calc(var(--cl) + var(--cw) * 0.44);
+    width: clamp(780px, 62vw, 1180px);
+  }
+}
+
+.hx-card {
   background: #fff;
-  border: 1px solid rgb(230 232 237 / 0.9);
+  border: 1px solid rgb(230 232 237 / 0.85);
   border-radius: 1.1em;
   box-shadow:
-    0 0.06em 0.12em rgb(17 19 24 / 0.04),
-    0 1.6em 3.6em -1.6em rgb(30 34 80 / 0.26);
+    0 0.06em 0.15em rgb(17 19 24 / 0.03),
+    0 1.4em 4em rgb(30 41 80 / 0.08);
 }
-.eco-glass {
-  background: rgb(255 255 255 / 0.82);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  backdrop-filter: blur(12px) saturate(140%);
+.hx-glass {
+  background: rgb(255 255 255 / 0.94);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
 }
-.eco-line {
+.hx-sk {
   display: block;
   height: 0.42em;
   border-radius: 99em;
   background: #eceef3;
 }
-@keyframes eco-flow {
-  to {
-    stroke-dashoffset: -8.5;
+
+/* product loops inside the stage (12 s, seamless) */
+@keyframes hx-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  35%,
+  82% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1;
   }
 }
-.eco-path {
-  stroke-dasharray: 0.25 0.6;
-  animation: eco-flow 12s linear infinite;
+@keyframes hx-area {
+  0%,
+  8% {
+    opacity: 0;
+  }
+  35%,
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-@media (prefers-reduced-motion: reduce) {
-  .eco-path {
-    animation: none;
+@keyframes hx-q {
+  0%,
+  6% {
+    opacity: 0;
+    transform: translateY(6px);
   }
-  .eco-motion {
-    display: none;
+  12%,
+  88% {
+    opacity: 1;
+    transform: none;
   }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hx-typing {
+  0%,
+  14% {
+    opacity: 0;
+  }
+  18%,
+  30% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hx-a {
+  0%,
+  32% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  40%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hx-dot {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes hx-bar {
+  0%,
+  10% {
+    transform: scaleY(0.4);
+  }
+  40%,
+  82% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.4);
+  }
+}
+@keyframes hx-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes hx-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.hx-draw {
+  stroke-dasharray: 1;
+  animation: hx-draw 12s ease-in-out infinite;
+}
+.hx-area {
+  animation: hx-area 12s ease-in-out infinite;
+}
+.hx-q {
+  animation: hx-q 12s ease-in-out infinite;
+}
+.hx-typing {
+  animation: hx-typing 12s linear infinite;
+}
+.hx-a {
+  animation: hx-a 12s ease-in-out infinite;
+}
+.hx-dot {
+  animation: hx-dot 1.2s ease-in-out infinite;
+}
+.hx-bar {
+  transform-origin: bottom;
+  animation: hx-bar 12s ease-in-out infinite;
+}
+.hx-blink {
+  animation: hx-blink 3s ease-in-out infinite;
+}
+.hx-ring {
+  transform-origin: center;
+  animation: hx-ring 4s ease-in-out infinite;
 }
 
 /* footer wordmark */
@@ -1237,37 +1332,50 @@
   }
   .hero-in,
   .page-enter,
-  .eco-in {
-    animation: none;
-  }
+  .nav-shell,
   .eco-float,
   .eco-float-sm,
   .eco-glow,
   .eco-flow,
-  .eco-pulse,
-  .eco-dot,
-  .eco-bar,
-  .eco-blink {
+  .hx-float,
+  .hx-drift,
+  .hx-wire,
+  .hx-dot,
+  .hx-bar,
+  .hx-blink,
+  .hx-ring {
     animation: none;
   }
-  .eco-packet {
-    animation: none;
-    opacity: 0;
+  .eco-motion {
+    display: none;
+  }
+  /* entrances become a short, plain fade; parallax and the scroll hand-off are off */
+  .hx-in,
+  .hx-in-fade,
+  .hx-in-line,
+  .hx-in-assemble,
+  .hx-in-pop {
+    animation: hx-fade 0.3s linear both;
+    animation-delay: 0ms;
+  }
+  .hx-par,
+  .hx-scroll {
+    transform: none;
+    opacity: 1;
   }
   /* loops that hide content settle on their "shown" state */
-  .eco-draw {
+  .hx-draw {
     animation: none;
     stroke-dashoffset: 0;
   }
-  .eco-area,
-  .eco-q,
-  .eco-a,
-  .eco-count {
+  .hx-area,
+  .hx-q,
+  .hx-a {
     animation: none;
     opacity: 1;
     transform: none;
   }
-  .eco-typing {
+  .hx-typing {
     animation: none;
     opacity: 0;
   }

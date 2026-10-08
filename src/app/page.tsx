@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/home/Hero";
+import { Hero } from "@/components/home/hero/Hero";
 import { Proof } from "@/components/home/Proof";
 import { Position } from "@/components/home/Position";
 import { ServicesBento } from "@/components/home/ServicesBento";
