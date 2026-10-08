@@ -18,15 +18,16 @@ const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
 export default function ContactPage() {
   return (
     <>
-      <section className="band border-t-0">
-        <div className="container-x py-14 md:py-20">
-          <div className="hero-in mb-8" style={i(0)}>
+      <section className="relative isolate overflow-hidden bg-[linear-gradient(to_bottom,#fafaf8,#ffffff)]">
+        <div aria-hidden className="absolute -top-[30%] right-[-10%] -z-10 h-[90%] w-[70%] rounded-[50%] bg-[radial-gradient(closest-side,rgb(243_241_255/0.95),rgb(234_242_255/0.5)_60%,transparent)]" />
+        <div className="container-x page-top pb-14 md:pb-20">
+          <div className="hero-in mt-4 mb-10" style={i(0)}>
             <Breadcrumbs items={[{ name: "Contact", path: "/contact" }]} />
           </div>
           <p className="eyebrow hero-in" style={i(1)}>
             Contact
           </p>
-          <h1 className="h1-page hero-in mt-4" style={i(2)}>
+          <h1 className="h1-page hero-in mt-6 max-w-[16ch]" style={i(2)}>
             Tell us what you&apos;re building.
           </h1>
           <p className="lead hero-in mt-6" style={i(3)}>
@@ -35,10 +36,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-tight">
+      <section id="brief" className="section-tight scroll-mt-28">
         <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-8 lg:col-start-5 lg:order-2">
-            <div className="rounded-lg border border-line bg-bg p-[clamp(20px,3.5vw,40px)]">
+            <div className="rounded-[24px] border border-line bg-white p-[clamp(20px,3.5vw,44px)] shadow-[var(--shadow-md)]">
               <ContactForm />
             </div>
           </div>

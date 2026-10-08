@@ -1,9 +1,10 @@
+/** The stack the studio builds with, grouped by the job each layer does. Keep it honest: add only what you would ship. */
+export type TechGroup = { key: string; label: string; job: string; icon: string; items: string[] };
 
-/** The stack the studio ships with today (taken from delivered projects). Keep it honest: add only what you would build in. */
-export const techGroups: { label: string; job: string; items: string[] }[] = [
-  { label: "Frontend", job: "What people see and touch", items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui"] },
-  { label: "Backend", job: "Logic, APIs and integrations", items: ["Python", "FastAPI", "Django REST", "SQLAlchemy", "Pydantic", "Celery"] },
-  { label: "Data", job: "Where the truth lives", items: ["PostgreSQL", "Supabase", "Redis", "Elasticsearch", "Snowflake", "Trino", "Athena"] },
-  { label: "AI", job: "Reasoning on your data", items: ["Claude", "OpenAI", "Gemini", "Text-to-SQL", "Semantic search", "RAG"] },
-  { label: "Cloud", job: "How it ships and stays up", items: ["AWS EC2", "AWS S3", "Docker", "Caddy"] },
+export const techGroups: TechGroup[] = [
+  { key: "frontend", label: "Frontend", job: "What people see and touch", icon: "monitor", items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui"] },
+  { key: "backend", label: "Backend", job: "Logic, APIs and integrations", icon: "server", items: ["Python", "FastAPI", "Django", "Node.js", "PostgreSQL"] },
+  { key: "data", label: "Data", job: "Where the truth lives", icon: "db", items: ["PostgreSQL", "Redis", "Supabase", "Elasticsearch", "Snowflake"] },
+  { key: "ai", label: "AI", job: "Reasoning on your data", icon: "spark", items: ["OpenAI", "Claude", "Gemini", "RAG", "Semantic Search"] },
+  { key: "cloud", label: "Cloud", job: "How it ships and stays up", icon: "cloud", items: ["AWS", "Docker", "CI/CD", "S3", "Cloud Infrastructure"] },
 ];

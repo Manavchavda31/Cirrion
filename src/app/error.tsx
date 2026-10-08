@@ -7,7 +7,7 @@ export default function ErrorBoundary({ error, reset }: { error: Error & { diges
     console.error(error);
   }, [error]);
   return (
-    <section className="grid min-h-[70svh] place-items-center px-[var(--gutter)] py-24 text-center">
+    <section className="page-top grid min-h-[80svh] place-items-center px-[var(--gutter)] pb-24 text-center">
       <div>
         <p className="eyebrow">Something went wrong</p>
         <h1 className="h1-page mt-4">That didn&apos;t load.</h1>

@@ -19,7 +19,7 @@ export function ScrollReveal() {
       },
       { rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
     );
-    const observe = () => document.querySelectorAll(".reveal:not(.is-in)").forEach((el) => io.observe(el));
+    const observe = () => document.querySelectorAll(".reveal:not(.is-in), .wordmark-reveal:not(.is-in)").forEach((el) => io.observe(el));
     observe();
     // catch elements that mount later (client components, streaming)
     const mo = new MutationObserver(observe);

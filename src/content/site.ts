@@ -28,27 +28,16 @@ export const site = {
    * Unverified entries fall back to the neutral statement so nothing is ever invented.
    */
   proof: [
-    { value: "8", label: "Disciplines under one roof", verified: true },
-    { value: "6", label: "Stage delivery process", verified: true },
-    { value: "1", label: "Accountable team, discovery to launch", verified: true },
-    { value: "3", label: "Products delivered to production, from AI SaaS to enterprise analytics", verified: true },
+    { value: "8", label: "Disciplines under one roof", icon: "layers", verified: true },
+    { value: "3", label: "Products live in production", icon: "rocket", verified: true },
+    { value: "6", label: "Stage delivery process", icon: "route", verified: true },
+    { value: "8", label: "Industries we design for", icon: "grid", verified: true },
+    { value: "1", label: "Accountable team, discovery to launch", icon: "team", verified: true },
+    // Flip to verified: true only once each number is real and defensible.
+    { value: "6+", label: "Years of experience", icon: "clock", verified: false },
+    { value: "100+", label: "Projects delivered", icon: "rocket", verified: false },
+    { value: "40+", label: "Global clients", icon: "globe", verified: false },
+    { value: "99%", label: "Client satisfaction", icon: "heart", verified: false },
   ],
   founded: "", // TODO
-} as const;
-
-export const nav = {
-  primary: [
-    { label: "Services", href: "/services", menu: "services" },
-    { label: "Work", href: "/work" },
-    { label: "Solutions", href: "/industries", menu: "solutions" },
-    { label: "Company", href: "/about", menu: "company" },
-    { label: "Insights", href: "/insights" },
-  ],
-  company: [
-    { label: "About", href: "/about", sub: "Story, philosophy, approach" },
-    { label: "Team", href: "/team", sub: "The people building your product" },
-    { label: "Process", href: "/process", sub: "Six stages, no surprises" },
-    { label: "Careers", href: "/careers", sub: "Work with Cirrion" },
-    { label: "Contact", href: "/contact", sub: "Tell us what you're building" },
-  ],
 } as const;

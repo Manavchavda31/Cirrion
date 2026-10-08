@@ -77,7 +77,7 @@ export default async function CaseStudyPage({ params }: Props) {
       <ul className="grid gap-4 sm:grid-cols-2">
         {p.highlights.map((h, i) => (
           <Reveal key={h.title} as="li" delay={(i % 2) * 60} className="h-full">
-            <div className="card h-full bg-bg-2">
+            <div className="card h-full">
               <h3 className="h3">{h.title}</h3>
               <p className="mt-2 text-[0.9375rem] text-fg-2">{h.text}</p>
             </div>
@@ -113,7 +113,7 @@ export default async function CaseStudyPage({ params }: Props) {
           <dl className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {p.metrics.map((m) => (
               <div key={m.label}>
-                <dd className="font-semibold tracking-tight text-[clamp(2.5rem,4vw,3.5rem)] leading-none text-navy">{m.value}</dd>
+                <dd className="font-display font-extrabold tracking-[-0.04em] text-[clamp(2.5rem,4vw,3.5rem)] leading-none text-fg">{m.value}</dd>
                 <dt className="mt-2 text-fg-2">{m.label}</dt>
               </div>
             ))}
@@ -122,7 +122,7 @@ export default async function CaseStudyPage({ params }: Props) {
         <ul className="rule-list">
           {p.results.map((r, i) => (
             <Reveal key={i} as="li" delay={i * 50} className="flex gap-3 py-4 text-[1.0625rem]">
-              <span aria-hidden className="mt-[0.6em] h-2 w-2 shrink-0 rounded-sm bg-accent" />
+              <span aria-hidden className="mt-[0.55em] h-2 w-2 shrink-0 rounded-full bg-indigo" />
               {r.text}
             </Reveal>
           ))}
@@ -152,7 +152,7 @@ export default async function CaseStudyPage({ params }: Props) {
       label: "Client testimonial",
       body: (
         <blockquote>
-          <p className="font-semibold tracking-tight text-[clamp(1.5rem,2.6vw,2.125rem)] leading-snug">&ldquo;{p.testimonial.quote}&rdquo;</p>
+          <p className="font-display font-bold tracking-[-0.025em] text-[clamp(1.5rem,2.6vw,2.125rem)] leading-snug">&ldquo;{p.testimonial.quote}&rdquo;</p>
           <footer className="mt-6 text-fg-2">
             <span className="font-medium text-fg">{p.testimonial.name}</span>, {p.testimonial.role}, {p.testimonial.company} · {p.testimonial.country}
           </footer>
@@ -172,9 +172,10 @@ export default async function CaseStudyPage({ params }: Props) {
 
   return (
     <>
-      <section className="band border-t-0">
-        <div className="container-x py-14 md:py-20">
-          <div className="hero-in mb-8" style={{ "--i": 0 } as React.CSSProperties}>
+      <section className="relative isolate overflow-hidden bg-[linear-gradient(to_bottom,#fafaf8,#ffffff)]">
+        <div aria-hidden className="absolute -top-[30%] right-[-10%] -z-10 h-[90%] w-[70%] rounded-[50%] bg-[radial-gradient(closest-side,rgb(243_241_255/0.95),rgb(234_242_255/0.5)_60%,transparent)]" />
+        <div className="container-x page-top pb-14 md:pb-20">
+          <div className="hero-in mt-4 mb-10" style={{ "--i": 0 } as React.CSSProperties}>
             <Breadcrumbs
               items={[
                 { name: "Work", path: "/work" },
@@ -186,7 +187,7 @@ export default async function CaseStudyPage({ params }: Props) {
             Case study · {p.type}
             {p.sample && " · Sample project"}
           </p>
-          <h1 className="h1-page hero-in mt-4" style={{ "--i": 2 } as React.CSSProperties}>
+          <h1 className="h1-page hero-in mt-6" style={{ "--i": 2 } as React.CSSProperties}>
             {p.name}
           </h1>
           <p className="lead hero-in mt-6" style={{ "--i": 3 } as React.CSSProperties}>
@@ -217,7 +218,7 @@ export default async function CaseStudyPage({ params }: Props) {
         </Block>
       ))}
 
-      <section className="band" aria-label="Next project">
+      <section className="surface-soft" aria-label="Next project">
         <Link href={`/work/${next.slug}`} className="group block">
           <div className="container-x py-12 md:py-16">
             <p className="eyebrow">Next project</p>

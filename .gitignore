@@ -4,3 +4,6 @@ node_modules
 .env*.local
 *.tsbuildinfo
 next-env.d.ts
+
+# industry photo originals (see docs/industry-photography.md)
+assets/industry-photos/

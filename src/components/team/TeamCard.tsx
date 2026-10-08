@@ -14,17 +14,17 @@ function initials(name: string) {
 export function TeamCard({ member: m, compact }: { member: TeamMember; compact?: boolean }) {
   return (
     <article>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-bg-3">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-line bg-[linear-gradient(140deg,#f3f1ff,#eaf2ff)]">
         {m.photo ? (
           <Image src={m.photo} alt={`Portrait of ${m.name}`} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover object-top" />
         ) : (
-          <span aria-hidden className="absolute inset-0 grid place-items-center font-semibold tracking-tight text-[4.5rem] text-navy/70">
+          <span aria-hidden className="absolute inset-0 grid place-items-center font-display text-[4.5rem] font-extrabold tracking-[-0.05em] text-indigo-deep/80">
             {initials(m.name)}
           </span>
         )}
         {m.placeholder && <span className="tag absolute top-3 left-3">Placeholder</span>}
       </div>
-      <h3 className="mt-4 text-[1.375rem]">{m.name}</h3>
+      <h3 className="mt-5 text-[1.5rem] font-bold tracking-[-0.03em]">{m.name}</h3>
       <p className="meta mt-0.5">{m.role}</p>
       {!compact && (
         <>

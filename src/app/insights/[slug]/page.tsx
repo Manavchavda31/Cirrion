@@ -36,9 +36,10 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       <article>
-        <header className="band border-t-0">
-          <div className="container-x py-14 md:py-20">
-            <div className="hero-in mb-8" style={{ "--i": 0 } as React.CSSProperties}>
+        <header className="relative isolate overflow-hidden bg-[linear-gradient(to_bottom,#fafaf8,#ffffff)]">
+          <div aria-hidden className="absolute -top-[30%] right-[-10%] -z-10 h-[90%] w-[70%] rounded-[50%] bg-[radial-gradient(closest-side,rgb(243_241_255/0.95),rgb(234_242_255/0.5)_60%,transparent)]" />
+          <div className="container-x page-top pb-12 md:pb-16">
+            <div className="hero-in mt-4 mb-10" style={{ "--i": 0 } as React.CSSProperties}>
               <Breadcrumbs
                 items={[
                   { name: "Insights", path: "/insights" },
@@ -49,7 +50,7 @@ export default async function ArticlePage({ params }: Props) {
             <p className="eyebrow hero-in" style={{ "--i": 1 } as React.CSSProperties}>
               {a.category} · {a.kind}
             </p>
-            <h1 className="h1-page hero-in mt-4 max-w-[24ch]" style={{ "--i": 2 } as React.CSSProperties}>
+            <h1 className="h1-page hero-in mt-6 max-w-[20ch]" style={{ "--i": 2 } as React.CSSProperties}>
               {a.title}
             </h1>
             <p className="lead hero-in mt-6" style={{ "--i": 3 } as React.CSSProperties}>
@@ -68,7 +69,7 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       </article>
 
-      <section className="section-tight band" aria-labelledby="more">
+      <section className="section surface-soft" aria-labelledby="more">
         <div className="container-x">
           <div className="flex items-end justify-between gap-6">
             <h2 id="more" className="h2">
@@ -81,7 +82,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {related.map((r, i) => (
               <Reveal key={r.slug} delay={i * 60}>
-                <ArticleCard article={r} />
+                <ArticleCard article={r} variant="row" />
               </Reveal>
             ))}
           </div>

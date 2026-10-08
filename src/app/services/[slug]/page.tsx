@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/ui/PageHero";
@@ -11,9 +10,11 @@ import { CtaBand } from "@/components/sections/CtaBand";
 import { ProcessCompact } from "@/components/sections/ProcessCompact";
 import { RelatedWork } from "@/components/sections/RelatedWork";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ServiceVisual } from "@/components/visuals/ServiceVisual";
 import { getService, services } from "@/content/services";
 import { getAllProjects } from "@/lib/projects";
 import { buildMetadata, serviceLd } from "@/lib/seo";
+import { midSentence } from "@/lib/text";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -47,24 +48,20 @@ export default async function ServicePage({ params }: Props) {
           { name: "Services", path: "/services" },
           { name: s.title, path: `/services/${s.slug}` },
         ]}
-        aside={
-          <div className="photo aspect-[4/3]">
-            <Image src={`/services/${s.slug}.jpg`} alt="" width={1200} height={900} priority sizes="(min-width:1024px) 440px, 100vw" className="h-full w-full" />
-          </div>
-        }
+        aside={<ServiceVisual slug={s.slug} />}
       >
-        <Cta href="/contact">Start a project</Cta>
+        <Cta href="/contact">Start a Project</Cta>
         <Cta href="#capabilities" variant="ghost" arrow={false}>
           What&apos;s included
         </Cta>
       </PageHero>
 
-      <section aria-label="Outcomes" className="border-b border-line">
+      <section aria-label="Outcomes" className="surface-white border-y border-line">
         <div className="container-x">
           <ul className="grid md:grid-cols-3">
             {s.outcomes.map((o, i) => (
               <Reveal key={o} as="li" delay={i * 60} className={`flex items-start gap-3 py-7 md:py-9 ${i > 0 ? "border-t border-line md:border-t-0 md:border-l md:pl-8" : ""} ${i < 2 ? "md:pr-8" : ""}`}>
-                <span aria-hidden className="mt-[0.45em] h-2 w-2 shrink-0 rounded-sm bg-accent" />
+                <span aria-hidden className="mt-[0.15em] grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lavender text-[0.75rem] text-indigo-deep">✓</span>
                 <span className="text-[1.0625rem] leading-snug">{o}</span>
               </Reveal>
             ))}
@@ -115,12 +112,12 @@ export default async function ServicePage({ params }: Props) {
         <div className="container-x">
           <SectionHeading eyebrow="Process" title={<span id="proc-title">How we work</span>} lead="The same six stages on every engagement, scaled to the size of the product." />
           <div className="mt-10">
-            <ProcessCompact photos={false} />
+            <ProcessCompact />
           </div>
         </div>
       </section>
 
-      <section className="section-tight band" aria-labelledby="tech-title">
+      <section className="section-tight surface-white border-y border-line" aria-labelledby="tech-title">
         <div className="container-x grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <p className="eyebrow">Technology</p>
@@ -130,7 +127,7 @@ export default async function ServicePage({ params }: Props) {
           </div>
           <ul className="flex flex-wrap content-start gap-2 lg:col-span-7 lg:col-start-6" aria-label="Technologies we use for this service">
             {s.tech.map((t) => (
-              <li key={t} className="tag bg-bg px-4 py-1.5 text-[0.9375rem]">
+              <li key={t} className="tag px-4 py-1.5 text-[0.9375rem]">
                 {t}
               </li>
             ))}
@@ -160,7 +157,7 @@ export default async function ServicePage({ params }: Props) {
           <ul className="mt-6 grid gap-x-10 md:grid-cols-2">
             {others.map((o) => (
               <li key={o.slug}>
-                <Link href={`/services/${o.slug}`} className="group flex items-baseline justify-between border-b border-line py-4 font-semibold tracking-tight text-[1.25rem] transition-colors hover:text-accent">
+                <Link href={`/services/${o.slug}`} className="group flex items-baseline justify-between border-b border-line py-5 font-display text-[1.375rem] font-bold tracking-[-0.025em] transition-colors hover:text-accent">
                   <span>{o.title}</span>
                   <span aria-hidden className="arrow">→</span>
                 </Link>
@@ -170,7 +167,7 @@ export default async function ServicePage({ params }: Props) {
         </div>
       </section>
 
-      <CtaBand title={`Ready to talk about your ${s.menuTitle.toLowerCase()} project?`} text="Tell us what you're building. We'll reply within one working day with next steps." />
+      <CtaBand title={`Ready to talk about your ${midSentence(s.menuTitle)} project?`} text="Tell us what you're building. We'll reply within one working day with next steps." />
 
       <JsonLd data={serviceLd({ title: s.title, description: s.seoDescription, path: `/services/${s.slug}` })} />
     </>

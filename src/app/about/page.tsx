@@ -75,7 +75,7 @@ export default function AboutPage() {
           <ul className="grid gap-6 md:grid-cols-3">
             {disciplines.map((d, i) => (
               <Reveal key={d.t} as="li" delay={i * 60} className="h-full">
-                <div className="card h-full bg-bg-2">
+                <div className="card h-full">
                   <p className="text-[0.8125rem] font-semibold tracking-[0.06em] text-accent uppercase">{d.q}</p>
                   <h3 className="h3 mt-3">{d.t}</h3>
                   <p className="mt-2 text-[0.9375rem] text-fg-2">{d.b}</p>
@@ -86,12 +86,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="theme-navy" aria-labelledby="mission">
-        <div className="container-x py-16 md:py-24">
+      <section className="surface-gradient relative isolate overflow-hidden" aria-labelledby="mission">
+        <svg aria-hidden className="absolute top-1/2 right-[-6%] -z-10 hidden h-[140%] -translate-y-1/2 text-indigo/15 lg:block" viewBox="0 0 400 400" fill="none">
+          <circle cx="200" cy="200" r="190" stroke="currentColor" strokeDasharray="2 8" />
+          <circle cx="200" cy="200" r="120" stroke="currentColor" />
+          <circle cx="200" cy="10" r="6" fill="#6366F1" fillOpacity=".4" />
+          <circle cx="80" cy="200" r="5" fill="#F47B20" />
+        </svg>
+        <div className="container-x py-[clamp(80px,10vw,136px)]">
           <Reveal>
             <p className="eyebrow">Mission</p>
-            <p id="mission" className="h1-page mt-4 max-w-[26ch]">
-              To make serious software accessible to every ambitious business.
+            <p id="mission" className="h2-xl mt-6 max-w-[20ch]">
+              To make serious software accessible to every <span className="text-indigo-deep">ambitious business.</span>
             </p>
           </Reveal>
         </div>

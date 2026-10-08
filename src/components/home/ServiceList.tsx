@@ -1,31 +1,41 @@
-import Image from "next/image";
 import { services } from "@/content/services";
+import { ServiceVisual } from "@/components/visuals/ServiceVisual";
 import { Reveal } from "@/components/ui/Reveal";
 import { TrackedLink } from "@/components/ui/TrackedLink";
+import { cn } from "@/lib/cn";
 
-/** Photo cards for every service (or the `only` subset, in that order). Images live in public/services/<slug>.jpg (4:3). */
+/**
+ * All services (or the `only` subset, in that order) as visual cards. The first card is wide so the grid opens
+ * with hierarchy instead of eight equal tiles.
+ */
 export function ServiceList({ only }: { only?: string[] }) {
   const list = only ? only.map((slug) => services.find((s) => s.slug === slug)!).filter(Boolean) : services;
   return (
-    <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-      {list.map((s, i) => (
-        <Reveal key={s.slug} as="li" delay={(i % 4) * 50} className="h-full">
-          <TrackedLink href={`/services/${s.slug}`} event="service_click" eventLabel={s.title} className="group flex h-full flex-col">
-            <span className="photo block aspect-[4/3]">
-              <Image src={`/services/${s.slug}.jpg`} alt="" width={1200} height={900} sizes="(min-width:1024px) 300px, (min-width:640px) 45vw, 100vw" className="h-full w-full" />
-            </span>
-            <span className="mt-5 block text-[0.875rem] font-medium text-fg-3">{s.num}</span>
-            <span className="row-title mt-1 block text-[1.25rem] leading-snug font-semibold tracking-tight transition-colors group-hover:text-accent">{s.title}</span>
-            <span className="mt-2 block text-[0.9375rem] leading-snug text-fg-2">{s.summary}</span>
-            <span className="mt-3 inline-flex items-center gap-1.5 pt-1 text-[0.9375rem] font-semibold text-accent">
-              Learn more
-              <span className="transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
-                →
+    <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {list.map((s, i) => {
+        const wide = i === 0;
+        return (
+          <Reveal key={s.slug} as="li" delay={(i % 3) * 70} className={cn("h-full", wide && "md:col-span-2")}>
+            <TrackedLink href={`/services/${s.slug}`} event="service_click" eventLabel={s.title} className={cn("group card card-hover flex h-full overflow-hidden !rounded-[22px] !p-0", wide ? "flex-col md:flex-row" : "flex-col")}>
+              <span className={cn("media m-2 block shrink-0 !rounded-[16px]", wide ? "aspect-[16/10] md:order-2 md:mb-2 md:aspect-auto md:w-[56%]" : "mb-0 aspect-[16/10]")}>
+                <ServiceVisual slug={s.slug} />
               </span>
-            </span>
-          </TrackedLink>
-        </Reveal>
-      ))}
+              <span className={cn("flex flex-1 flex-col p-6 lg:p-7", wide && "md:justify-center lg:p-10")}>
+                <span className="font-display text-[0.875rem] font-semibold text-indigo-deep">{s.num}</span>
+                <span className={cn("row-title mt-2 block font-display font-bold tracking-[-0.03em]", wide ? "text-[clamp(1.75rem,2.6vw,2.375rem)] leading-[1.08]" : "text-[1.375rem] leading-tight")}>{s.title}</span>
+                <span className={cn("mt-3 block leading-relaxed text-fg-2", wide ? "text-[1.0625rem]" : "text-[0.9688rem]")}>{s.summary}</span>
+                <span className="mt-4 text-[0.8125rem] text-fg-3">{s.menuSub}</span>
+                <span className="mt-auto inline-flex items-center gap-2 pt-6 text-[0.9375rem] font-semibold text-accent">
+                  Explore
+                  <span className="arrow" aria-hidden>
+                    →
+                  </span>
+                </span>
+              </span>
+            </TrackedLink>
+          </Reveal>
+        );
+      })}
     </ul>
   );
 }

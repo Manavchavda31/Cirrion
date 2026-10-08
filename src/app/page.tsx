@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/home/Hero";
-import { ServiceList } from "@/components/home/ServiceList";
-import { IndustriesList } from "@/components/home/IndustriesList";
-import { TechSection } from "@/components/home/TechSection";
+import { Proof } from "@/components/home/Proof";
+import { Position } from "@/components/home/Position";
+import { ServicesBento } from "@/components/home/ServicesBento";
+import { WorkIndex } from "@/components/home/WorkIndex";
+import { IndustriesShowcase } from "@/components/home/IndustriesShowcase";
+import { TechEcosystem } from "@/components/home/TechEcosystem";
+import { InsightsFeature } from "@/components/home/InsightsFeature";
 import { Testimonials } from "@/components/home/Testimonials";
-import { WorkGrid } from "@/components/work/WorkGrid";
-import { ProcessCompact } from "@/components/sections/ProcessCompact";
+import { ProcessJourney } from "@/components/sections/ProcessJourney";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { ArticleCard } from "@/components/insights/ArticleCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
 import { Cta } from "@/components/ui/Cta";
 import { getAllProjects } from "@/lib/projects";
 import { articles } from "@/content/articles";
+import { process } from "@/content/process";
 import { site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -22,132 +24,129 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
+/** Background rhythm: off-white hero → white → soft grey → white → off-white → white → white/gradient stage → off-white → gradient CTA → ink footer. */
 export default function Home() {
+  const latest = [...articles].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
   return (
     <>
       <Hero />
+      <Proof className="pt-4" />
+      <Position />
 
-      <section className="section" aria-labelledby="position-title">
-        <div className="container-x grid gap-10 lg:grid-cols-12">
-          <Reveal className="lg:col-span-7">
-            <p className="eyebrow">Our position</p>
-            <h2 id="position-title" className="h2 mt-3 max-w-[24ch]">
-              We don&apos;t just provide developers. We design and build digital products.
-            </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5 lg:self-end">
-            <p className="prose-body">
-              Product thinking, design and engineering sit in one team, so decisions are made once and carried through to launch. No handoffs to lose intent, no gaps to fall through.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section pt-0" aria-labelledby="services-title">
+      <section className="section surface-soft" aria-labelledby="services-title">
         <div className="container-x">
           <SectionHeading
+            layout="split"
+            size="xl"
             eyebrow="Services"
-            title={<span id="services-title">What we build</span>}
+            id="services-title"
+            title="What we build"
             lead="Each engagement starts with the business problem. The technology follows."
+            action={
+              <Cta href="/services" variant="ghost">
+                All services
+              </Cta>
+            }
           />
-          <div className="mt-10">
-            <ServiceList only={["mobile-app-development", "web-app-development", "saas-development", "ai-development"]} />
+          <div className="mt-14 lg:mt-16">
+            <ServicesBento />
           </div>
-          <Reveal className="mt-10">
-            <Cta href="/services" variant="ghost">
-              All services
-            </Cta>
-          </Reveal>
         </div>
       </section>
 
-      <section className="section band" id="work" aria-labelledby="work-title">
+      <section className="section surface-white" id="work" aria-labelledby="work-title">
         <div className="container-x">
           <SectionHeading
+            layout="split"
+            size="xl"
             eyebrow="Selected work"
-            title={<span id="work-title">Products, not just projects</span>}
-            lead="Each engagement is a product with users, constraints and a definition of done. Here is how we approached three of them."
+            id="work-title"
+            title="Products, not just projects."
+            lead="Each engagement is a product with users, constraints and a definition of done."
+            action={
+              <Cta href="/work" variant="ghost">
+                All work
+              </Cta>
+            }
           />
-          <div className="mt-10">
-            <WorkGrid projects={getAllProjects()} showFilters={false} />
-          </div>
-          <Reveal className="mt-10">
-            <Cta href="/work" variant="ghost">
-              All work
-            </Cta>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section" aria-labelledby="process-title">
-        <div className="container-x">
-          <SectionHeading
-            eyebrow="Process"
-            title={<span id="process-title">Six stages, no surprises</span>}
-            lead="You always know what happens next, what you'll receive, and what we need from you."
-          />
-          <div className="mt-10">
-            <ProcessCompact />
+          <div className="mt-12 lg:mt-16">
+            <WorkIndex projects={getAllProjects()} />
           </div>
         </div>
       </section>
 
-      <section className="section band" aria-labelledby="industries-title">
+      <section className="section" aria-labelledby="industries-title">
         <div className="container-x">
           <SectionHeading
+            layout="split"
+            size="xl"
             eyebrow="Industries"
-            title={<span id="industries-title">Built around how your sector works</span>}
+            id="industries-title"
+            title="Built around how your sector works."
             lead="We learn the workflow first. The software should fit the business, not the other way round."
+            action={
+              <Cta href="/industries" variant="ghost">
+                All industries
+              </Cta>
+            }
           />
-          <div className="mt-10">
-            <IndustriesList only={["healthcare", "fintech", "real-estate", "hospitality"]} />
+          <div className="mt-14 lg:mt-16">
+            <IndustriesShowcase />
           </div>
-          <Reveal className="mt-10">
-            <Cta href="/industries" variant="ghost">
-              All industries
-            </Cta>
-          </Reveal>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="tech-title">
+      <section className="section surface-white" aria-labelledby="process-title">
         <div className="container-x">
           <SectionHeading
-            eyebrow="Technology"
-            title={<span id="tech-title">The right tools, chosen last</span>}
-            lead="We start with the outcome you need, then pick the stack that gets you there and keeps you flexible."
+            layout="split"
+            size="xl"
+            eyebrow="Process"
+            id="process-title"
+            title="Six stages, no surprises."
+            lead="You always know what happens next, what you'll receive, and what we need from you."
+            action={
+              <Cta href="/process" variant="ghost">
+                How we work
+              </Cta>
+            }
           />
-          <div className="mt-10">
-            <TechSection />
+          <div className="mt-14 lg:mt-20">
+            <ProcessJourney steps={process} />
           </div>
+        </div>
+      </section>
+
+      <section className="section surface-white border-t border-line" aria-labelledby="tech-title">
+        <div className="container-x">
+          <TechEcosystem />
         </div>
       </section>
 
       <Testimonials />
 
-      <section className="section band" aria-labelledby="insights-title">
+      <section className="section" aria-labelledby="insights-title">
         <div className="container-x">
           <SectionHeading
+            layout="split"
+            size="xl"
             eyebrow="Insights"
-            title={<span id="insights-title">How we think about building</span>}
+            id="insights-title"
+            title="How we think about building."
             lead="Practical notes on engineering, AI and product decisions."
+            action={
+              <Cta href="/insights" variant="ghost">
+                All Insights
+              </Cta>
+            }
           />
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {articles.slice(0, 3).map((a, i) => (
-              <Reveal key={a.slug} delay={i * 60}>
-                <ArticleCard article={a} />
-              </Reveal>
-            ))}
+          <div className="mt-14 lg:mt-16">
+            <InsightsFeature articles={latest} />
           </div>
-          <Reveal className="mt-10">
-            <Cta href="/insights" variant="ghost">
-              All insights
-            </Cta>
-          </Reveal>
         </div>
       </section>
 
-      <CtaBand title="Have a product in mind?" text="Tell us what you're building. We'll reply within one working day." />
+      <CtaBand title="Let's turn your idea into something real." text="Tell us what you're building. We'll help you plan, design and engineer it." />
     </>
   );
 }

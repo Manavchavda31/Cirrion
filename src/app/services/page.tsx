@@ -20,13 +20,13 @@ export default function ServicesPage() {
         lead="Eight disciplines, one accountable team. We choose the service mix around your outcome, not the other way round."
         crumbs={[{ name: "Services", path: "/services" }]}
       >
-        <Cta href="/contact">Start a project</Cta>
+        <Cta href="/contact">Start a Project</Cta>
         <Cta href="/work" variant="ghost" arrow={false}>
           See our work
         </Cta>
       </PageHero>
 
-      <section className="section" aria-label="All services">
+      <section className="section surface-soft" aria-label="All services">
         <div className="container-x">
           <ServiceList />
         </div>

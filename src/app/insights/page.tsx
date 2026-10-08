@@ -3,7 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { InsightsList } from "@/components/insights/InsightsList";
-import { ArticleCard } from "@/components/insights/ArticleCard";
+import { InsightsFeature } from "@/components/home/InsightsFeature";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { articles } from "@/content/articles";
 import { buildMetadata } from "@/lib/seo";
@@ -46,18 +46,12 @@ export default function InsightsPage() {
       />
 
       {latest.length > 0 && (
-        <section className="section-tight" aria-labelledby="latest">
+        <section className="surface-white pb-[clamp(56px,6vw,88px)]" aria-labelledby="latest">
           <div className="container-x">
-            <h2 id="latest" className="h2">
+            <h2 id="latest" className="sr-only">
               Latest
             </h2>
-            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {latest.map((a, i) => (
-                <Reveal key={a.slug} delay={i * 60}>
-                  <ArticleCard article={a} />
-                </Reveal>
-              ))}
-            </div>
+            <InsightsFeature articles={latest} />
           </div>
         </section>
       )}
@@ -98,7 +92,7 @@ export default function InsightsPage() {
           <SectionHeading eyebrow="How we write" title={<span id="how-we-write">Notes we would want to read</span>} />
           <ul className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
             {writing.map((w, i) => (
-              <Reveal key={w.t} as="li" delay={i * 60} className="border-t border-line-2 pt-5">
+              <Reveal key={w.t} as="li" delay={i * 60} className="card">
                 <h3 className="h3">{w.t}</h3>
                 <p className="mt-2 text-fg-2">{w.b}</p>
               </Reveal>

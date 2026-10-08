@@ -2,7 +2,7 @@ import { Cta } from "@/components/ui/Cta";
 
 export default function NotFound() {
   return (
-    <section className="grid min-h-[70svh] place-items-center px-[var(--gutter)] py-24 text-center">
+    <section className="page-top grid min-h-[80svh] place-items-center px-[var(--gutter)] pb-24 text-center">
       <div>
         <p className="eyebrow">Error 404</p>
         <h1 className="h1-page mt-4">This page isn&apos;t here.</h1>

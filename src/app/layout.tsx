@@ -8,12 +8,22 @@ import { Analytics } from "@/components/layout/Analytics";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SvgDefs } from "@/components/visuals/kit";
 import { organizationLd, websiteLd } from "@/lib/seo";
 
+/** Body and UI text. */
 const inter = localFont({
   src: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
   variable: "--font-inter",
   weight: "100 900",
+  display: "swap",
+});
+
+/** Display face for the hero, headings, large statements and the footer wordmark. */
+const manrope = localFont({
+  src: "../../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2",
+  variable: "--font-manrope",
+  weight: "200 800",
   display: "swap",
 });
 
@@ -36,7 +46,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF8F4",
+  themeColor: "#FAFAF8",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
@@ -47,11 +57,12 @@ const bootScript = `document.documentElement.classList.add('js');`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
+        <SvgDefs />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

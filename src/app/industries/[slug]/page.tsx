@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { Cta } from "@/components/ui/Cta";
@@ -8,9 +7,11 @@ import { Faq } from "@/components/ui/Faq";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { RelatedWork } from "@/components/sections/RelatedWork";
+import { IndustryMedia } from "@/components/media/IndustryMedia";
 import { getIndustry, industries } from "@/content/industries";
 import { getAllProjects } from "@/lib/projects";
 import { buildMetadata } from "@/lib/seo";
+import { midSentence } from "@/lib/text";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -42,18 +43,14 @@ export default async function IndustryPage({ params }: Props) {
           { name: "Industries", path: "/industries" },
           { name: ind.title, path: `/industries/${ind.slug}` },
         ]}
-        aside={
-          <div className="photo">
-            <Image src={`/industries/${ind.slug}.jpg`} alt={`${ind.title}: illustrative product concept`} width={1200} height={1218} priority sizes="(min-width:1024px) 400px, 100vw" className="h-auto w-full" />
-          </div>
-        }
+        aside={<IndustryMedia slug={ind.slug} priority sizes="(min-width:1024px) 600px, 100vw" />}
       >
         <Cta href="/contact">Discuss your project</Cta>
       </PageHero>
 
       <section className="section" aria-labelledby="challenges">
         <div className="container-x">
-          <SectionHeading eyebrow="Industry challenges" title={<span id="challenges">What makes {ind.title.toLowerCase()} hard</span>} />
+          <SectionHeading eyebrow="Industry challenges" title={<span id="challenges">What makes {midSentence(ind.title)} hard</span>} />
           <ul className="mt-10 grid gap-6 md:grid-cols-3">
             {ind.challenges.map((c, i) => (
               <Reveal key={c.title} as="li" delay={i * 60} className="h-full">
@@ -91,7 +88,7 @@ export default async function IndustryPage({ params }: Props) {
             <ul className="mt-6 grid gap-x-8 sm:grid-cols-2">
               {ind.features.map((f) => (
                 <li key={f} className="flex items-center gap-3 border-b border-line py-3.5">
-                  <span aria-hidden className="h-2 w-2 shrink-0 rounded-sm bg-accent" />
+                  <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-indigo" />
                   {f}
                 </li>
               ))}
@@ -126,7 +123,7 @@ export default async function IndustryPage({ params }: Props) {
         </div>
       </section>
 
-      <CtaBand title={`Building for ${ind.title.toLowerCase()}? Let's talk.`} text="Tell us about your users and constraints. We'll reply within one working day." />
+      <CtaBand title={`Building for ${midSentence(ind.title)}? Let's talk.`} text="Tell us about your users and constraints. We'll reply within one working day." />
     </>
   );
 }

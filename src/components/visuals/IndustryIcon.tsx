@@ -1,5 +1,6 @@
 /** Line icons for the eight industries. Stroke follows currentColor, so a card can recolour it on hover. */
-const s = { stroke: "currentColor", strokeWidth: 1.6, fill: "none", strokeLinecap: "round", strokeLinejoin: "round" } as const;
+/** Stroke width is read from --icon-stroke so small renderings (menus) can thicken the line. */
+const s = { stroke: "currentColor", style: { strokeWidth: "var(--icon-stroke, 1.6)" }, fill: "none", strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 const icons: Record<string, React.ReactNode> = {
   healthcare: (
@@ -62,9 +63,9 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
-export function IndustryIcon({ slug, className = "h-12 w-12" }: { slug: string; className?: string }) {
+export function IndustryIcon({ slug, className = "h-12 w-12", stroke }: { slug: string; className?: string; stroke?: number }) {
   return (
-    <svg viewBox="0 0 64 64" className={className} aria-hidden>
+    <svg viewBox="0 0 64 64" className={className} aria-hidden style={{ "--icon-stroke": stroke ?? 3.6 } as React.CSSProperties}>
       {icons[slug] ?? icons["professional-services"]}
     </svg>
   );

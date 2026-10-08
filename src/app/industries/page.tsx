@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
-import { IndustriesList } from "@/components/home/IndustriesList";
+import { IndustriesShowcase } from "@/components/home/IndustriesShowcase";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { buildMetadata } from "@/lib/seo";
 
@@ -19,9 +19,9 @@ export default function IndustriesPage() {
         lead="We learn the workflow first. Each industry has its own constraints, users and regulations, and the software should respect them."
         crumbs={[{ name: "Industries", path: "/industries" }]}
       />
-      <section className="section" aria-label="All industries">
+      <section className="section surface-soft" aria-label="All industries">
         <div className="container-x">
-          <IndustriesList />
+          <IndustriesShowcase />
         </div>
       </section>
       <CtaBand title="Don't see your industry?" text="We work across sectors. Tell us about your workflow and we'll tell you honestly whether we're the right fit." label="Talk to us" />

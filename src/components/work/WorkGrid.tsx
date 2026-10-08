@@ -44,8 +44,8 @@ export function WorkGrid({ projects, limit, showFilters = true }: { projects: Pr
                   track("work_filter", { filter: f });
                 }}
                 className={cn(
-                  "flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-[0.9375rem] transition-colors disabled:cursor-not-allowed disabled:opacity-40",
-                  active ? "border-navy bg-navy text-white" : "border-line-2 text-fg-2 hover:border-fg hover:text-fg",
+                  "flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-[0.9375rem] transition-colors disabled:cursor-not-allowed disabled:opacity-40",
+                  active ? "border-indigo-deep bg-indigo-deep text-white shadow-[0_8px_20px_-10px_rgb(99_102_241/0.7)]" : "border-line-2 text-fg-2 hover:border-fg hover:text-fg",
                 )}
               >
                 {f}

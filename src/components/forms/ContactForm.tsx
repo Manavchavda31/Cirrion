@@ -39,8 +39,8 @@ function Pills({ name, legend, options, value, onChange, error }: { name: string
             <input type="radio" name={name} value={o} checked={value === o} onChange={() => onChange(o)} className="peer sr-only" />
             <span
               className={cn(
-                "flex h-10 items-center rounded-md border border-line-2 bg-bg px-4 text-[0.9375rem] text-fg-2 transition-colors",
-                "peer-checked:border-navy peer-checked:bg-navy peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent hover:border-fg",
+                "flex h-10 items-center rounded-full border border-line-2 bg-white px-4 text-[0.9375rem] text-fg-2 transition-colors",
+                "peer-checked:border-indigo-deep peer-checked:bg-indigo-deep peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent hover:border-indigo/50 hover:bg-lavender",
               )}
             >
               {o}

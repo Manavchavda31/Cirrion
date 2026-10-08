@@ -4,7 +4,7 @@ import { industries } from "@/content/industries";
 import { articles } from "@/content/articles";
 import { getAllProjects } from "@/lib/projects";
 import { site } from "@/content/site";
-import { OG, ogFont, ogLogo } from "@/lib/og-assets";
+import { OG, ogDisplayFont, ogFont, ogLogo } from "@/lib/og-assets";
 
 export const dynamicParams = false;
 
@@ -46,7 +46,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ kind: s
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: OG.navy, color: "#ffffff", fontFamily: "Inter" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: OG.ink, backgroundImage: OG.glow, color: "#ffffff", fontFamily: "Inter" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={ogLogo("mark-light.png")} width={58} height={59} alt="" />
@@ -54,8 +54,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ kind: s
           <img src={ogLogo("word-light.png")} width={165} height={29} alt="" />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: OG.orange }}>{data.tag}</div>
-          <div style={{ marginTop: 22, fontWeight: 700, fontSize: titleSize, lineHeight: 1.08, letterSpacing: -1.5, maxWidth: 1000 }}>{data.title}</div>
+          <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: OG.indigo }}>{data.tag}</div>
+          <div style={{ marginTop: 22, fontFamily: "Manrope", fontWeight: 800, fontSize: titleSize, lineHeight: 1.05, letterSpacing: -2, maxWidth: 1000 }}>{data.title}</div>
           <div style={{ marginTop: 24, fontSize: 28, lineHeight: 1.4, color: OG.muted, maxWidth: 900 }}>{short}</div>
         </div>
       </div>
@@ -67,6 +67,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ kind: s
         { name: "Inter", data: ogFont(400), weight: 400, style: "normal" },
         { name: "Inter", data: ogFont(600), weight: 600, style: "normal" },
         { name: "Inter", data: ogFont(700), weight: 700, style: "normal" },
+        { name: "Manrope", data: ogDisplayFont(800), weight: 800, style: "normal" },
       ],
     },
   );

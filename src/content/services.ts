@@ -343,13 +343,3 @@ export const services: Service[] = [
 ];
 
 export const getService = (slug: string) => services.find((s) => s.slug === slug);
-
-/** Mega-menu groups (6) → link targets */
-export const serviceMenu = [
-  { num: "01", title: "Mobile Development", sub: "iOS / Android / Cross-platform", href: "/services/mobile-app-development" },
-  { num: "02", title: "Web Development", sub: "Websites / Web Apps / SaaS", href: "/services/web-development" },
-  { num: "03", title: "AI & Automation", sub: "AI Applications / Agents / Automation", href: "/services/ai-development" },
-  { num: "04", title: "Custom Software", sub: "CRM / ERP / Internal Platforms", href: "/services/custom-software" },
-  { num: "05", title: "UI/UX", sub: "Product Design / UX / Prototyping", href: "/services/ui-ux-design" },
-  { num: "06", title: "Cloud & Engineering", sub: "APIs / Infrastructure / DevOps", href: "/services/cloud-engineering" },
-] as const;
