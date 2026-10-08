@@ -52,8 +52,11 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/** Marks the page as JS-capable so reveal animations never hide content from visitors without JS. */
-const bootScript = `document.documentElement.classList.add('js');`;
+/**
+ * Marks the page as JS-capable so reveal animations never hide content from visitors without JS, and skips the
+ * home intro (HeroIntro) on later page loads in the same session.
+ */
+const bootScript = `document.documentElement.classList.add('js');try{if(sessionStorage.getItem('cirrion-intro'))document.documentElement.classList.add('intro-seen');else sessionStorage.setItem('cirrion-intro','1')}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

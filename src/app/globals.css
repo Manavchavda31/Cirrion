@@ -955,18 +955,18 @@
 .hx-display {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(3rem, 12.4vw, 4rem);
-  line-height: 0.94;
-  letter-spacing: -0.048em;
+  font-size: clamp(2.75rem, 11.4vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
 }
 @media (min-width: 768px) {
   .hx-display {
-    font-size: clamp(4.5rem, 9vw, 5.75rem);
+    font-size: clamp(3.5rem, 8vw, 4.5rem);
   }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .hx-display {
-    font-size: clamp(5rem, 6.25vw, 5.75rem);
+    font-size: clamp(4.5rem, 6.6vw, 6rem);
   }
 }
 
@@ -1048,20 +1048,6 @@
   animation-delay: var(--hx-fd, 0s);
 }
 
-/* ambient light: slow drift, never a visible blob */
-@keyframes hx-drift {
-  0%,
-  100% {
-    transform: translate3d(-2%, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(2%, -3%, 0) scale(1.08);
-  }
-}
-.hx-drift {
-  animation: hx-drift var(--hx-dur, 16s) ease-in-out infinite;
-}
-
 /* connection lines breathe; a small light pulse travels each one (SMIL in markup) */
 @keyframes hx-breathe {
   0%,
@@ -1076,63 +1062,246 @@
   animation: hx-breathe 7s ease-in-out infinite;
 }
 
-/* depth layers: pointer parallax and the scroll hand-off */
+/* depth layers: pointer parallax */
 .hx-par {
   transform: translate3d(calc(var(--hx-px) * var(--hx-depth, 4px)), calc(var(--hx-py) * var(--hx-depth, 4px)), 0);
   transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
-.hx-scroll {
-  transform: scale(calc(1 - var(--hx-s) * 0.03));
-  opacity: calc(1 - var(--hx-s) * 0.05);
-  transform-origin: 50% 0;
-}
 
-/* the product stage: a 64em × 50em canvas whose em follows the stage width */
-.hx-stage {
+/* ───── Centered hero stage ─────────────────────────────────────────────
+   One canvas whose em follows the stage width, with three arrangements:
+   desktop 80em wide (--x/--y/--w), tablet 64em (--tx/--ty/--tw), phones 30em (--mx/--my/--mw). */
+.hc-stage {
   container-type: inline-size;
 }
-.hx-canvas {
+.hc-canvas {
   position: relative;
-  font-size: calc(100cqw / 64);
-  height: 50em;
+  font-size: calc(100cqw / 30);
+  height: 40em;
 }
-.hx-el {
+.hc-el {
   position: absolute;
-  left: calc(var(--x) * 1em);
-  top: calc(var(--y) * 1em);
-  width: calc(var(--w) * 1em);
-}
-.hx-sm-only {
-  display: none;
+  left: calc(var(--mx, var(--x)) * 1em);
+  top: calc(var(--my, var(--y)) * 1em);
+  width: calc(var(--mw, var(--w)) * 1em);
 }
 @media (max-width: 767px) {
-  .hx-canvas {
-    font-size: calc(100cqw / 40);
-    height: 45em;
-  }
-  .hx-el {
-    left: calc(var(--mx, var(--x)) * 1em);
-    top: calc(var(--my, var(--y)) * 1em);
-    width: calc(var(--mw, var(--w)) * 1em);
-  }
-  .hx-sm-hide {
-    display: none;
-  }
-  .hx-sm-only {
-    display: block;
+  .hc-hide-sm {
+    display: none !important;
   }
 }
-/* desktop: the stage sits to the right of the copy and runs past the viewport edge */
-@media (min-width: 1280px) {
-  .hx-stage-wrap {
-    --cw: min(100vw - 2 * var(--gutter), var(--container));
-    --cl: calc((100vw - var(--cw)) / 2);
-    position: absolute;
-    top: calc(var(--nav-space) - 8px);
-    left: calc(var(--cl) + var(--cw) * 0.44);
-    width: clamp(780px, 62vw, 1180px);
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hc-canvas {
+    font-size: calc(100cqw / 64);
+    height: 37em;
   }
+  .hc-el {
+    left: calc(var(--tx, var(--x)) * 1em);
+    top: calc(var(--ty, var(--y)) * 1em);
+    width: calc(var(--tw, var(--w)) * 1em);
+  }
+  .hc-hide-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1024px) {
+  .hc-canvas {
+    font-size: calc(100cqw / 80);
+    height: 40em;
+  }
+  .hc-el {
+    left: calc(var(--x) * 1em);
+    top: calc(var(--y) * 1em);
+    width: calc(var(--w) * 1em);
+  }
+}
+
+/* entrance times are offset by the intro loader while it is showing */
+.hc {
+  --intro: 0ms;
+}
+html:not(.intro-seen) .hc:has(.intro) {
+  --intro: 640ms;
+}
+html:not(.intro-seen):has(.intro) .nav-shell {
+  animation-delay: 680ms;
+}
+
+/* breathing atmosphere: separate periods so the light never pulses in step */
+@keyframes hc-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+.hc-glow {
+  position: absolute;
+  left: var(--gx, 50%);
+  top: var(--gy, 50%);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  animation: hc-breathe var(--gd, 10s) ease-in-out infinite;
+  animation-delay: var(--gdl, 0s);
+}
+
+/* floating cards: own period, a little lift and ≤1.5° of tilt */
+@keyframes hc-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--r0, 0deg));
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(0, -7px, 0) rotate(var(--r1, 0deg));
+    opacity: 0.94;
+  }
+}
+.hc-bob {
+  animation: hc-bob var(--hx-dur, 6s) ease-in-out infinite;
+  animation-delay: var(--hx-fd, 0s);
+}
+.hc-lift {
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+.hc-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0.06em 0.15em rgb(17 19 24 / 0.03),
+    0 1.8em 4em rgb(30 41 80 / 0.14);
+}
+
+/* readings that gently change */
+/* readings that gently change: one value fades out completely before the next fades in */
+@keyframes hc-val-a {
+  0%,
+  42%,
+  100% {
+    opacity: 1;
+  }
+  47%,
+  92% {
+    opacity: 0;
+  }
+}
+@keyframes hc-val-b {
+  0%,
+  47%,
+  97%,
+  100% {
+    opacity: 0;
+  }
+  52%,
+  92% {
+    opacity: 1;
+  }
+}
+.hx-val-a {
+  animation: hc-val-a 10s ease-in-out infinite;
+}
+.hx-val-b {
+  animation: hc-val-b 10s ease-in-out infinite;
+}
+@keyframes hc-progress {
+  0%,
+  100% {
+    transform: scaleX(0.82);
+  }
+  50% {
+    transform: scaleX(1);
+  }
+}
+.hc-progress {
+  animation: hc-progress 6s ease-in-out infinite;
+}
+
+/* scroll hand-off: content softens, visual settles, light fades */
+.hc-content {
+  opacity: calc(1 - var(--hx-s) * 0.15);
+}
+.hc-scroll {
+  transform: scale(calc(1 - var(--hx-s) * 0.04));
+  transform-origin: 50% 0;
+}
+.hc-atmo {
+  opacity: calc(1 - var(--hx-s) * 0.5);
+}
+
+/* hero CTAs: lift, deeper shadow, arrow travel */
+.hc-cta {
+  transition:
+    transform 0.35s var(--ease-out),
+    box-shadow 0.35s var(--ease-out),
+    background-color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out);
+}
+.hc-cta:hover {
+  transform: translateY(-2px);
+}
+.hc-cta.btn-primary:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 2px 4px rgb(49 46 129 / 0.2),
+    0 18px 36px -14px rgb(79 84 229 / 0.75);
+}
+.hc-cta.btn-ghost:hover {
+  box-shadow: 0 12px 28px -18px rgb(30 41 80 / 0.35);
+}
+
+/* ───── Intro loader: shown on the first visit of a session, timed in CSS so it can never block ───── */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #fafaf8;
+  pointer-events: none;
+  animation: intro-out 0.32s var(--ease-out) 0.7s forwards;
+}
+html.intro-seen .intro {
+  display: none;
+}
+@keyframes intro-out {
+  to {
+    opacity: 0;
+    transform: scale(1.01);
+    visibility: hidden;
+  }
+}
+@keyframes intro-logo {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes intro-line {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes intro-glow {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+.intro-logo {
+  animation: intro-logo 0.45s var(--ease-out) 0.1s both;
+}
+.intro-line {
+  transform-origin: left;
+  animation: intro-line 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+}
+.intro-glow {
+  animation: intro-glow 0.4s var(--ease-out) 0.45s both;
 }
 
 .hx-card {
@@ -1142,11 +1311,6 @@
   box-shadow:
     0 0.06em 0.15em rgb(17 19 24 / 0.03),
     0 1.4em 4em rgb(30 41 80 / 0.08);
-}
-.hx-glass {
-  background: rgb(255 255 255 / 0.94);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
 }
 .hx-sk {
   display: block;
@@ -1338,8 +1502,13 @@
   .eco-glow,
   .eco-flow,
   .hx-float,
-  .hx-drift,
   .hx-wire,
+  .hc-glow,
+  .hc-bob,
+  .hc-progress,
+  .intro-logo,
+  .intro-line,
+  .intro-glow,
   .hx-dot,
   .hx-bar,
   .hx-blink,
@@ -1359,9 +1528,34 @@
     animation-delay: 0ms;
   }
   .hx-par,
-  .hx-scroll {
+  .hc-scroll {
     transform: none;
     opacity: 1;
+  }
+  .hc-content,
+  .hc-atmo {
+    opacity: 1;
+  }
+  .hc-glow {
+    opacity: 0.45;
+  }
+  .hc-cta:hover,
+  .hc-lift:hover {
+    transform: none;
+  }
+  .hx-val-b {
+    animation: none;
+    opacity: 0;
+  }
+  .hx-val-a {
+    animation: none;
+  }
+  /* a very short, static intro */
+  .intro {
+    animation: intro-out 0.2s linear 0.3s forwards;
+  }
+  html:not(.intro-seen) .hc:has(.intro) {
+    --intro: 300ms;
   }
   /* loops that hide content settle on their "shown" state */
   .hx-draw {

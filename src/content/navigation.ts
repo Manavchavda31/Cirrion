@@ -64,13 +64,12 @@ export const companyMenu: NavLink[] = [
   { label: "Contact", href: "/contact", sub: "Tell us what you're building" },
 ];
 
-export type MenuKey = "services" | "solutions" | "industries" | "company";
+export type MenuKey = "services" | "industries";
 
 export const primaryNav: { label: string; href: string; menu?: MenuKey; match?: string[] }[] = [
   { label: "Services", href: "/services", menu: "services" },
-  { label: "Work", href: "/work" },
-  { label: "Solutions", href: "/process", menu: "solutions", match: ["/process"] },
   { label: "Industries", href: "/industries", menu: "industries" },
-  { label: "Company", href: "/about", menu: "company", match: ["/about", "/team", "/careers", "/contact"] },
+  { label: "Process", href: "/process" },
+  { label: "Work", href: "/work" },
   { label: "Insights", href: "/insights" },
 ];

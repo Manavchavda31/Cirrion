@@ -7,15 +7,13 @@ import { Logo } from "@/components/brand/Logo";
 import { TrackedLink } from "@/components/ui/TrackedLink";
 import { IndustryIcon } from "@/components/visuals/IndustryIcon";
 import { MobileMenu } from "./MobileMenu";
-import { companyMenu, primaryNav, servicesMenu, solutionsMenu, type MenuKey } from "@/content/navigation";
+import { primaryNav, servicesMenu, type MenuKey } from "@/content/navigation";
 import { industries } from "@/content/industries";
-import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { track } from "@/lib/analytics";
 
 /**
- * Floating navbar: a translucent bar that firms up after scrolling, with mega menus for Services, Solutions and
- * Industries and a compact Company menu. Mouse opens on hover (with a short close delay); touch and keyboard use the
+ * Floating navbar: a translucent bar that firms up after scrolling, with mega menus for Services and Industries. Mouse opens on hover (with a short close delay); touch and keyboard use the
  * buttons. Escape closes and returns focus to the trigger.
  */
 export function Navbar() {
@@ -99,7 +97,7 @@ export function Navbar() {
               const expanded = key !== null && open === key;
               const active = isActive(item.href, item.match);
               return (
-                <li key={item.label} className={key === "company" ? "relative" : undefined} onPointerEnter={(e) => (key ? hoverOpen(key, e) : setOpen(null))}>
+                <li key={item.label} onPointerEnter={(e) => (key ? hoverOpen(key, e) : setOpen(null))}>
                   {key ? (
                     <button
                       type="button"
@@ -120,21 +118,20 @@ export function Navbar() {
                       {item.label}
                     </TrackedLink>
                   )}
-                  {key === "company" && <CompanyPanel open={open === "company"} />}
                 </li>
               );
             })}
           </ul>
 
           <div className="flex items-center gap-2">
-            <TrackedLink href="/contact" event="cta_click" eventLabel="Let's Talk (nav)" className="btn btn-primary btn-sm hidden lg:inline-flex">
-              <span>Let&apos;s Talk</span>
+            <TrackedLink href="/contact" event="cta_click" eventLabel="Start a Project (nav)" className="btn btn-primary btn-sm hidden lg:inline-flex">
+              <span>Start a Project</span>
               <span className="arrow" aria-hidden>
                 →
               </span>
             </TrackedLink>
-            <TrackedLink href="/contact" event="cta_click" eventLabel="Let's Talk (nav, mobile)" className="btn btn-primary btn-sm !min-h-[40px] !px-3.5 !text-[0.875rem] max-[359px]:hidden lg:hidden">
-              Let&apos;s Talk
+            <TrackedLink href="/contact" event="cta_click" eventLabel="Start a Project (nav, mobile)" className="btn btn-primary btn-sm !min-h-[40px] !px-3.5 !text-[0.875rem] max-[399px]:hidden lg:hidden">
+              Start a Project
             </TrackedLink>
             <button
               type="button"
@@ -151,7 +148,6 @@ export function Navbar() {
           </div>
 
           <ServicesPanel open={open === "services"} />
-          <SolutionsPanel open={open === "solutions"} />
           <IndustriesPanel open={open === "industries"} />
         </nav>
       </header>
@@ -237,63 +233,6 @@ function FeaturePanel() {
   );
 }
 
-const solutionIcons = [
-  <path key="mvp" d="M12 3c3 2 5 5.5 5 9.5L15 15H9l-2-2.5C7 8.5 9 5 12 3Zm-3 12-2 4 3-1m5-3 2 4-3-1m-2-9.5v.01" />,
-  <path key="saas" d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Zm0 4.5 8 4.5 8-4.5M4 16.5 12 21l8-4.5" />,
-  <path key="ai" d="M12 3v3m0 12v3M3 12h3m12 0h3M9 9h6v6H9z" />,
-  <path key="sheet" d="M4 5h16v14H4zM4 10h16M10 10v9" />,
-  <path key="portal" d="M3 6h18v12H3zM3 9.5h18M7 13.5h5" />,
-  <path key="scale" d="M4 19h16M6 15l4-4 3 3 5-6m0 0h-3.5M18 8v3.5" />,
-];
-
-function SolutionsPanel({ open }: { open: boolean }) {
-  return (
-    <div id="menu-solutions" className="mega hidden lg:block" data-open={open}>
-      <div className="grid grid-cols-[1fr_340px] gap-8 p-7">
-        <div>
-          <p className="mega-head">Solutions by outcome</p>
-          <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-1">
-            {solutionsMenu.map((l, i) => (
-              <li key={l.label}>
-                <MegaLink
-                  href={l.href}
-                  label={l.label}
-                  sub={l.sub}
-                  icon={
-                    <span className="icon-tile !h-10 !w-10 !rounded-xl">
-                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        {solutionIcons[i]}
-                      </svg>
-                    </span>
-                  }
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-        <TrackedLink href="/work/elfworks-accounting" event="nav_click" eventLabel="Featured case study (mega menu)" className="group flex flex-col rounded-2xl border border-line bg-bg p-6 transition-[border-color,box-shadow] duration-300 hover:border-indigo/30 hover:shadow-[var(--glow-indigo)]">
-          <p className="mega-head !text-accent">Featured case study</p>
-          <p className="mt-3 font-display text-[1.25rem] leading-tight font-bold tracking-[-0.025em]">ElfWorks Accounting</p>
-          <p className="mt-2 text-[0.875rem] leading-snug text-fg-2">A multi-tenant AI SaaS platform for accounting and tax-advisory firms.</p>
-          <ul className="mt-4 flex flex-wrap gap-1.5">
-            {["SaaS", "AI", "Web"].map((t) => (
-              <li key={t} className="tag !py-0.5 !text-[0.75rem]">
-                {t}
-              </li>
-            ))}
-          </ul>
-          <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[0.875rem] font-semibold text-accent">
-            Read the case study
-            <span className="arrow" aria-hidden>
-              →
-            </span>
-          </span>
-        </TrackedLink>
-      </div>
-    </div>
-  );
-}
-
 function IndustriesPanel({ open }: { open: boolean }) {
   return (
     <div id="menu-industries" className="mega hidden lg:block" data-open={open}>
@@ -325,26 +264,6 @@ function IndustriesPanel({ open }: { open: boolean }) {
           </span>
         </TrackedLink>
       </div>
-    </div>
-  );
-}
-
-function CompanyPanel({ open }: { open: boolean }) {
-  return (
-    <div id="menu-company" className="mega mega-compact !top-[calc(100%+26px)] !left-1/2 hidden w-[320px] !-translate-x-1/2 lg:block" data-open={open}>
-      <ul className="space-y-0.5 p-4 pb-3">
-        {companyMenu.map((c) => (
-          <li key={c.href} className="px-2.5">
-            <MegaLink href={c.href} label={c.label} sub={c.sub} />
-          </li>
-        ))}
-      </ul>
-      <a href={`mailto:${site.email}`} className="flex items-center justify-between border-t border-line px-6 py-3.5 text-[0.875rem] text-fg-2 transition-colors hover:text-accent">
-        {site.email}
-        <span className="arrow-ne" aria-hidden>
-          ↗
-        </span>
-      </a>
     </div>
   );
 }
