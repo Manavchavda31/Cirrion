@@ -1,0 +1,35 @@
+Multi-tenancy is one of those architecture decisions that is cheap to make early and painful to change once customers depend on it.
+
+## Choose an isolation model deliberately
+
+There are three common approaches:
+
+- **Shared schema, tenant column**: simplest and cheapest to run. Isolation depends on every query being scoped correctly.
+- **Schema per tenant**: stronger separation and easier per-tenant operations, with more migration overhead.
+- **Database per tenant**: strongest isolation, highest operational cost.
+
+Pick based on data sensitivity, expected tenant count and compliance requirements, not on habit.
+
+## Enforce isolation below the application
+
+If isolation relies on developers remembering a filter, it will eventually fail. Use database-level controls, such as row-level security, so a missing filter returns nothing instead of leaking data.
+
+## Model roles and permissions early
+
+Decide how users, roles and tenants relate before you build features. Retrofitting permissions into an existing data model touches everything.
+
+## Build billing as a system
+
+Plans, trials, usage and invoices become tangled quickly when added later. Treat billing as its own module with clear events, and reconcile it against your payment provider.
+
+## Add tenant-aware observability
+
+Logs and metrics should be filterable by tenant. When a customer reports a problem, you want to see their traffic in seconds.
+
+## Give your team admin tooling
+
+Support staff need safe ways to inspect and assist tenants, with audit logs. Building this early prevents dangerous shortcuts later.
+
+## Keep the first release small
+
+None of this means building everything at once. It means making the few foundational decisions deliberately, then shipping a focused product on top of them.

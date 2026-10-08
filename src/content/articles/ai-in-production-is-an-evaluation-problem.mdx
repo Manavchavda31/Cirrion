@@ -1,0 +1,36 @@
+A prototype that answers ten hand-picked questions well is not evidence that an AI system works. The gap between demo and production is almost always the same: nobody measured it.
+
+## Start with the questions, not the model
+
+Collect real questions from the people who will use the system. Fifty is enough to begin. For each one, write down what a correct answer looks like, including what the system should refuse to answer.
+
+This set is your evaluation. It costs a day to build and it will save weeks of arguing about whether a change made things better.
+
+## Measure before you optimise
+
+With a fixed set you can compare prompts, models and retrieval strategies on evidence:
+
+- **Accuracy**: does the answer match the expected one?
+- **Grounding**: is every claim supported by a retrieved source?
+- **Refusals**: does it decline what it should decline?
+- **Cost and latency**: what does each answer take?
+
+Without this, every improvement is an opinion.
+
+## Ground answers in your own data
+
+Retrieval-augmented generation reduces invented answers by giving the model the relevant source material at question time. It only works if retrieval is good, so evaluate retrieval separately from generation. If the right document isn't retrieved, no prompt will fix it.
+
+## Design for permissions early
+
+An assistant that can see everything will eventually show someone something they shouldn't. Retrieval and query generation must respect the asking user's permissions. This is easy to design in and very hard to add later.
+
+## Keep humans where the stakes are
+
+For anything with financial, legal or customer-facing consequences, let the system draft and let a person approve. Track how often they edit the draft. That edit rate is one of the most honest quality signals you'll get.
+
+## Monitor in production
+
+Log questions, answers, sources, cost and user feedback. Review failures weekly and add them to the evaluation set. The set grows with the product, and quality improves with it.
+
+> If you can't measure it, you can't safely depend on it.
